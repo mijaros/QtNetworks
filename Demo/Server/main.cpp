@@ -4,7 +4,8 @@
 #include <QThread>
 
 
-void Controler::run() {
+void Controler::run()
+{
     std::string command;
     while (1) {
         std::cin >> command;

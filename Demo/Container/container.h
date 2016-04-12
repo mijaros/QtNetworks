@@ -5,6 +5,11 @@
 #include <QDataStream>
 #include "container_global.h"
 
+/**
+ * @brief The Container class
+ * Class represents data exchanged by server and client
+ * There is no magic around here
+ */
 class CONTAINERSHARED_EXPORT Container
 {
     int id;
@@ -48,6 +53,7 @@ public:
     { }
     const char *what() const noexcept override;
 };
+
 
 QDataStream & operator<<(QDataStream &, const Container &);
 

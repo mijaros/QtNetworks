@@ -44,16 +44,16 @@ signals:
  * This class handles stdin and reads commands from stdin
  * The only valid command is quit which ends the application
  */
-class Controler : public QThread {
+class Controler : public QThread
+{
     Q_OBJECT
 public:
 
     Controler(QObject *parent = 0): QThread(parent)
     { }
 
-    virtual ~Controler() {
-
-    }
+    virtual ~Controler()
+    { }
 
     void run() override;
 };
