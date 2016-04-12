@@ -1,0 +1,139 @@
+\documentclass{beamer}
+
+\mode<presentation> {
+  \usetheme{CambridgeUS}
+  \setbeamercovered{transparent}
+}
+
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage{minted}
+
+\title{Qt Networking}
+\author{Miroslav Jaroš}
+\institute[Pb173]{Pb173 Crypto}
+\date{11.~4.~2016}
+
+\begin{document}
+    \begin{frame}
+        \titlepage
+    \end{frame}
+    \begin{frame}
+        \frametitle{Agenda}
+        \tableofcontents
+    \end{frame}
+
+    \section{Networks in general}
+    \begin{frame}
+        \frametitle{Computer networks}
+        \begin{itemize}
+            \item Connects computers for information exchange
+            \item Computers communicates using specified protocol
+            \begin{itemize}
+                \item Protocol uses each other
+                \item Http works over TCP
+            \end{itemize}
+            \item \texttt{ISO/OSI} model defines 7 layers
+            \item \texttt{TCP/IP} -- Internet
+        \end{itemize}
+    \end{frame}
+    \begin{frame}[allowframebreaks]
+        \small
+        \frametitle{TCP/IP}
+        \begin{itemize}
+            \item \texttt{IP} Internet protocol
+            \begin{itemize}
+                \item Addressing computers over network
+                \item Works on 3rd layer in ISO/OSI
+                \item \texttt{IPv4} 32 bit address commonly written in 4 digital numbers \texttt{127.0.0.1}
+                \item \texttt{IPv6} 128 bit address commonly written as 8 hexadecimal numbers \texttt{::1}
+                \item Also adds many other features for peer to peer communication
+            \end{itemize}
+            \framebreak
+            \item \texttt{TCP Transmission control protocol}
+            \begin{itemize}
+                \item Reliable and ordered delivery
+                \item Works on 4th layer of ISO/OSI
+                \item Every connection is quadruple \texttt{\(SOURCE\_HOST, SOURCE\_PORT, TARGET\_HOST, TARGET\_PORT\)}
+                \item Data are delivered complete and in same order as they were transmitted
+                \item You can't use TCP for broadcasting
+            \end{itemize}
+            \framebreak
+            \item \texttt{UDP User datagram protocol}
+            \begin{itemize}
+                \item Nonreliable delivery
+                \item Connection is identified as in TCP but there is no control of validity
+                \item Best-effort protocol, there is no retransmission or ordering of data
+                \item On the other hand UPD is in many cases much faster than TCP due to almost nonexisting messaging overhead
+                \item Can be used for broadcasting, multicasting, anycasting, and unicasting
+            \end{itemize}
+        \end{itemize}
+
+    \end{frame}
+    \section{Networks in Qt}
+    \begin{frame}{Networks in programming}
+        \begin{itemize}
+            \item Networking is service provided by OS
+            \item Any network acitons are accessible via OS API (Win 32, POSIX)
+            \item Therefore network code is strongly depends on target platform
+            \item Priviledged ports
+            \item Nondeterminism: you can't tell when or on which route will be your message delivered
+            \item Paralelism: Many of network events can happen simultaneously
+        \end{itemize}
+    \end{frame}
+    \subsection{Basic concept}
+    \begin{frame}[allowframebreaks]{Networks and Qt}
+        \begin{itemize}
+            \item Creates multiplatform network interface and tools
+            \item All netwokr classes and functions are contained in module network
+            \item Just add \texttt{Qt += network} in your .pro file
+            \item It contains classes to handle Tcp and Udp connections, SSL connections and
+            even websockets
+            \framebreak
+            \item Most important classes are:
+            \begin{itemize}
+                \item \texttt{QTcpSocket} handles single Tcp connection
+                \item \texttt{QTcpServer} creates listening socket and handles new icnomming connections
+                \item \texttt{QUdpSocket} handles udp connections -- there's no need for UdpServer
+                \item \texttt{QSslSocket} handles encrypted connections
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+    \subsection{Signals and Slots}
+    \begin{frame}{QtNetwork and Signals}
+        \begin{itemize}
+            \item You should be probably aware of Signals and Slots concept
+            \item QtNetwork uses signals and slots in same manner as the rest of library
+            \item Sockets emits signals that induces the change of state or any event that happens on socket
+            \item The most important for you are
+            \begin{itemize}
+                \item \texttt{readyRead} Data were delivered to socket and are ready to be read
+                \item \texttt{disconnected} Socket host has disconnected
+            \end{itemize}
+        \end{itemize}
+
+    \end{frame}
+    \subsection{Demo}
+    \begin{frame}{Demo}
+        \begin{itemize}
+            \item Simple Client-Server architecture
+            \item Can be found here \url{https://github.com/mijaros/QtNetworks.git}
+        \end{itemize}
+    \end{frame}
+    \begin{frame}{Links}
+        \begin{itemize}
+            \item \url{http://doc.qt.io} Qt documentation
+            \item \url{http://doc.qt.io/qt-4.8/signalsandslots.html} Introduction to signals and slots principle
+            \item \url{http://doc.qt.io/qt-5/qtnetwork-index.html} Network~module documentation
+        \end{itemize}
+    \end{frame}
+    \begin{frame}{The end}
+        \Large Thank you for attention
+    \end{frame}
+
+\end{document}
